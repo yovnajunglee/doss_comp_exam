@@ -154,15 +154,16 @@ data.frame(rbind(cbind(lower = apply(gaussian$Z.loc.post[(0.5*M1):M1,1,indx ],2,
   theme(legend.position = c(0.85,.85))
   #theme(legend.position = "none")
 
-M1=M2
-data.frame(rbind(cbind(lower = apply(covdynglg_matern_nu_est$Z.loc.post[(0.5*M1):M1,1,indx ],2,quantile, prob = .025),
-                       fit = apply(covdynglg_matern_nu_est$Z.loc.post[(0.5*M1):M1,1,indx ],2,sd),
-                       upper = apply(covdynglg_matern_nu_est$Z.loc.post[(0.5*M1):M1,1,indx ],2,quantile, prob = .975),
-                       model = "CovDynGLG-Matern", Observed = vecz[indx ,indout[1]], x = indx ),
-                 cbind(lower = apply(covdynglg$Z.loc.post[(0.5*M2):M2,1,indx ],2,quantile, prob = .025),
-                       fit = apply(covdynglg$Z.loc.post[(0.5*M2):M2,1,indx ],2, sd),
-                       upper = apply(covdynglg$Z.loc.post[(0.5*M2):M2,1,indx ],2,quantile, prob = .975),
-                       model = "CovDynGLG", Observed = vecz[indx ,indout[1]], x = indx ))) %>%
+M1=M2=20e3
+indx=1:265
+data.frame(rbind(cbind(lower = apply(covdynglg_matern_nu_est$Z.loc.post[(0.5*M1):M1,2,indx ],2,quantile, prob = .025),
+                       fit = apply(covdynglg_matern_nu_est$Z.loc.post[(0.5*M1):M1,2,indx ],2,sd),
+                       upper = apply(covdynglg_matern_nu_est$Z.loc.post[(0.5*M1):M1,2,indx ],2,quantile, prob = .975),
+                       model = "CovDynGLG-Matern", Observed = vecz[indx ,indout[2]], x = indx ),
+                 cbind(lower = apply(covdynglg$Z.loc.post[(0.5*M2):M2,2,indx ],2,quantile, prob = .025),
+                       fit = apply(covdynglg$Z.loc.post[(0.5*M2):M2,2,indx ],2, sd),
+                       upper = apply(covdynglg$Z.loc.post[(0.5*M2):M2,2,indx ],2,quantile, prob = .975),
+                       model = "CovDynGLG", Observed = vecz[indx ,indout[2]], x = indx ))) %>%
   mutate(lower = as.numeric(lower), upper = as.numeric(upper), Observed = as.numeric(Observed), fit = as.numeric(fit),
          x = as.numeric(x), Day =  rep(as.Date(days)[indx],2)) %>%
   ggplot(aes(x = Day, y = Observed )) + #geom_point()+
